@@ -1,17 +1,16 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <title> Index</title>
+  <title> Json</title>
   <link href="{{mix('css/app.css')}}" rel="stylesheet" type="text/css">
   <meta name="csrf-token" content="{{csrf_token()}}">
 </head>
 <body style="padding:10px;">
-  <h1>Hello/Index</h1>
-  <p>{!!$msg!!}</p>
-  <ul>
-    @foreach($data as $item)
-    <li>{!!$item!!}</li>
-    @endforeach
-  </ul>
+  <h1>Hello/Json</h1>
+  <p>{{$msg}}</p>
+  <div id="app">
+    <my-component></my-component>
+  </div>
+  <script src="{{mix('js/app.js')}}"></script>
 </body>
 </html>

@@ -8,6 +8,7 @@ use Goodby\CSV\Import\Standard\Interpreter;
 use Goodby\CSV\Import\Standard\LexerConfig;
 use App\Csvsample;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class CsvController extends Controller
 {
@@ -57,6 +58,18 @@ class CsvController extends Controller
         	     break;
             }
         }
+
+        //　バリデーション処理
+        $validator = Validator::make($arr,[
+           'name' => 'required|string|max:255',
+           'mail' => 'required|string|email|max:255'
+        ]);
+
+        if ($validator->fails()) {
+           $validator->errors()->add('line', $key);
+           return redirect('/sample')->withErrors($validator)->withInput();
+        }
+
         $data[] = $arr;
     }
 

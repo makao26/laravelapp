@@ -1,0 +1,5 @@
+[2020年 2月11日 火曜日 17時20分45秒 JST] This is MyCmd.sh.
+[2020年 2月11日 火曜日 17時53分03秒 JST] This is MyCmd.sh.
+[2020年 2月11日 火曜日 18時04分43秒 JST] This is MyCmd.sh.
+[Tue Feb 11 18:25:01 JST 2020] This is MyCmd.sh.
+[Tue Feb 11 18:27:01 JST 2020] This is MyCmd.sh.

@@ -9,6 +9,9 @@ use App\Http\Requests\HelloRequest;
 use Validator;
 use App\Person;
 use Illuminate\Support\Facades\Auth;
+use App\MyClasses\MyService;
+use App\MyClasses\MyServiceInterface;
+
 
 class HelloController extends Controller
 {
@@ -159,22 +162,83 @@ class HelloController extends Controller
     //   return view('hello.index',['items' => $items]);
     // }
 
-    public function index(Request $request){
-      $user = Auth::user();
-      $sort = $request->sort;
-      //$sortが空のときのデフォルトをageにするための処理を追加する
-      if(empty($sort)){
-        $sort = 'age';
-      }
-      // $items = DB::table('people')->orderBy('age','asc')->simplePaginate(5);
-      // $items = Person::orderBy('age','asc')->simplePaginate(5);
-      // $items = Person::orderBy($sort,'asc')->simplePaginate(5);
-      $items = Person::orderBy($sort,'asc')->paginate(5);
-      //return view('hello.index',['items' => $items]);
-      $param = ['items'=>$items,'sort'=>$sort,'user'=>$user];
-      return view('hello.index',$param);
+    // public function index(Request $request){
+    //   $user = Auth::user();
+    //   $sort = $request->sort;
+    //   //$sortが空のときのデフォルトをageにするための処理を追加する
+    //   if(empty($sort)){
+    //     $sort = 'age';
+    //   }
+    //   // $items = DB::table('people')->orderBy('age','asc')->simplePaginate(5);
+    //   // $items = Person::orderBy('age','asc')->simplePaginate(5);
+    //   // $items = Person::orderBy($sort,'asc')->simplePaginate(5);
+    //   $items = Person::orderBy($sort,'asc')->paginate(5);
+    //   //return view('hello.index',['items' => $items]);
+    //   $param = ['items'=>$items,'sort'=>$sort,'user'=>$user];
+    //   return view('hello.index',$param);
+    // }
+    // public function index(Request $request){
+    //   $data = [
+    //     'msg' => 'This is vue.js application.',
+    //   ];
+    //   return view('hello.index',$data);
+    // }
+
+    // public function index(MyService $myservice){
+    //   $data = [
+    //     'msg' => $myservice->say(),
+    //     'data' => $myservice->data()
+    //   ];
+    //   return view('hello.index',$data);
+    //
+    // }
+    // public function index(MyService $myservice, int $id = -1){
+    //   //$myservice = app()->makeWith('App\MyClasses\MyService', ['id' => $id]);
+    //   $myservice->setId($id);
+    //   $data = [
+    //     'id' => $myservice->getid(),
+    //     'msg'=> $myservice->say(),
+    //     'data'=> $myservice->alldata()
+    //   ];
+    //   return view('hello.index', $data);
+    // }
+    /*
+    function __construct(MyService $myservice){
+      $myservice = app('App\MyClasses\MyService');
+    }
+    */
+    function __construct(){
     }
 
+
+    /*
+    public function index(MyService $myservice, int $id = -1){
+      $myservice->setId($id);
+      $data = [
+        'msg'=> $myservice->say($id),
+        'data'=> $myservice->alldata()
+      ];
+      return view('hello.index', $data);
+    }
+    */
+    /*
+    public function index(MyService $myservice, int $id = -1){
+      $myservice->setId($id);
+      $data = [
+        'msg'=> $myservice->say(),
+        'data'=> $myservice->alldata()
+      ];
+      return view('hello.index', $data);
+    }
+    */
+    public function index(MyServiceInterface $myservice, int $id = -1){
+      $myservice->setId($id);
+      $data = [
+        'msg'=> $myservice->say(),
+        'data'=> $myservice->alldata()
+      ];
+      return view('hello.index', $data);
+    }
     public function post(Request $request){
       $items = DB::select('select * from people');
       return view('hello.index',['items' => $items]);
@@ -285,5 +349,13 @@ class HelloController extends Controller
         $msg = 'ログインに失敗しました。';
       }
       return view('hello.auth',['message'=>$msg]);
+    }
+
+    public function json($id = -1){
+      if($id == -1){
+        return Person::get()->toJson();
+      }else{
+        return Person::find($id)->toJson();
+      }
     }
 }

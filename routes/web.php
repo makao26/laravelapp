@@ -16,8 +16,10 @@ Route::get('/', function () {
 });
 // Route::get('hello', 'HelloController@index')
 //   ->middleware(HelloMiddleware::class); // ->middleware('auth');
-Route::get('hello', 'HelloController@index');
+// Route::get('hello', 'HelloController@index');
   //->middleware('hello');
+Route::get('hello/{id}', 'HelloController@index');
+Route::get('hello', 'HelloController@index');
 Route::post('hello', 'HelloController@post');
 Route::get('hello/add', 'HelloController@add');
 Route::post('hello/add', 'HelloController@create');
@@ -31,6 +33,8 @@ Route::get('hello/session', 'HelloController@ses_get');
 Route::post('hello/session', 'HelloController@ses_put');
 Route::get('hello/auth', 'HelloController@getAuth');
 Route::post('hello/auth', 'HelloController@postAuth');
+Route::get('hello/json', 'HelloController@json');
+Route::get('hello/json/{id}', 'HelloController@json');
 
 
 Route::get('person','PersonController@index');
@@ -55,3 +59,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('csv/sample', 'CsvController@showImportCSV');
 Route::post('csv/sample', 'CsvController@importCSV');
+
+//sassテスト用
+Route::get('/sass', function () {
+    return view('sass.sass');
+});
+
+//mailテスト用
+Route::get('mail', 'TransactionController@index');
+Route::post('mail', 'TransactionController@postSendMail');
